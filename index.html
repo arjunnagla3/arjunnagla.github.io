@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Arjun Nagla — Automation & Data Systems</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#171b20; --paper:#f4f2eb; --paper-2:#ece9df;
+    --line:#d8d3c4; --stamp:#a83a2c; --teal:#3a6b62;
+    --text:#20242a; --text-dim:#5a5f66;
+    box-sizing:border-box;
+    padding-top:env(safe-area-inset-top,0px);
+    padding-bottom:env(safe-area-inset-bottom,0px);
+  }
+  html{scroll-padding-top:env(safe-area-inset-top,0px);}
+  *{box-sizing:inherit;}
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --ink:#f4f2eb; --paper:#14171b; --paper-2:#1b1f24;
+      --line:#33383f; --stamp:#e0685a; --teal:#6fa89c;
+      --text:#eceae2; --text-dim:#9a9d9f;
+    }
+  }
+  :root[data-theme="dark"]{
+    --ink:#f4f2eb; --paper:#14171b; --paper-2:#1b1f24;
+    --line:#33383f; --stamp:#e0685a; --teal:#6fa89c;
+    --text:#eceae2; --text-dim:#9a9d9f;
+  }
+  html,body{height:100%;}
+  body{
+    margin:0; background:var(--paper); color:var(--text);
+    font-family:'IBM Plex Sans',system-ui,sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3{font-family:'Source Serif 4',Georgia,serif; margin:0; color:var(--ink);}
+  a{color:var(--teal);}
+  .wrap{max-width:760px; margin:0 auto; padding:0 24px;}
+  header.top{
+    padding:56px 0 40px; border-bottom:1px solid var(--line);
+  }
+  .name{font-size:2.1rem; font-weight:700;}
+  .role{color:var(--text-dim); margin-top:6px; font-size:1.05rem;}
+  .contact{margin-top:18px; display:flex; gap:18px; flex-wrap:wrap; font-size:.92rem;}
+  .contact a{text-decoration:none; border-bottom:1px solid var(--line); padding-bottom:2px;}
+
+  .hero{padding:52px 0 44px; border-bottom:1px solid var(--line);}
+  .hero .stat{
+    font-family:'Source Serif 4',serif; font-weight:700;
+    font-size:clamp(2.6rem,9vw,4.2rem); line-height:1; color:var(--stamp);
+  }
+  .hero .stat-label{margin-top:10px; max-width:46ch; color:var(--text); font-size:1.05rem; line-height:1.5;}
+  .hero p.note{margin-top:16px; color:var(--text-dim); font-size:.92rem; max-width:58ch; line-height:1.6;}
+
+  section.intro{padding:44px 0; border-bottom:1px solid var(--line);}
+  section.intro p{max-width:64ch; line-height:1.7; font-size:1.02rem;}
+
+  section.work{padding:44px 0;}
+  section.work > h2{font-size:1.5rem; margin-bottom:6px;}
+  section.work > p.sub{color:var(--text-dim); margin:0 0 28px; font-size:.95rem;}
+
+  .entry{border-top:1px solid var(--line);}
+  .entry:last-child{border-bottom:1px solid var(--line);}
+  .entry button.head{
+    all:unset; display:flex; align-items:center; gap:16px;
+    width:100%; padding:20px 4px; cursor:pointer;
+  }
+  .entry button.head:focus-visible{outline:2px solid var(--teal); outline-offset:4px; border-radius:4px;}
+  .icon{
+    flex:0 0 auto; width:38px; height:38px; display:flex; align-items:center; justify-content:center;
+    border:1px solid var(--line); border-radius:50%;
+  }
+  .icon svg{width:19px; height:19px; stroke:var(--teal); fill:none; stroke-width:1.6;}
+  .head-text{flex:1; min-width:0;}
+  .head-text .proj-name{font-family:'Source Serif 4',serif; font-weight:600; font-size:1.12rem; color:var(--ink);}
+  .head-text .tag{color:var(--text-dim); font-size:.88rem; margin-top:3px;}
+  .chev{flex:0 0 auto; color:var(--text-dim); font-size:1.1rem; transition:transform .2s ease;}
+  .entry[data-open="true"] .chev{transform:rotate(45deg);}
+  .body{
+    max-height:0; overflow:hidden; transition:max-height .28s ease;
+  }
+  .body-inner{padding:0 4px 26px 70px; display:grid; gap:10px; max-width:58ch;}
+  .body-inner .row{font-size:.95rem; line-height:1.55;}
+  .body-inner .row b{color:var(--ink); font-weight:600;}
+
+
+  .strip{display:grid; grid-template-columns:repeat(3,1fr); gap:20px; margin-top:8px;}
+  .strip .c .n{font-family:'Source Serif 4',serif; font-weight:700; font-size:1.6rem; color:var(--stamp); line-height:1.1;}
+  .strip .c .l{font-size:.85rem; color:var(--text-dim); margin-top:6px; line-height:1.4;}
+  .strip .c .co{font-size:.78rem; letter-spacing:.06em; text-transform:uppercase; color:var(--ink); font-weight:600; margin-bottom:6px;}
+  .emp{margin-top:36px;}
+  .emp:first-of-type{margin-top:0;}
+  .emp h3{font-size:1.25rem; margin-bottom:2px;}
+  .emp .emp-sub{color:var(--text-dim); font-size:.88rem; margin-bottom:12px;}
+  @media (max-width:520px){.strip{grid-template-columns:1fr; gap:16px;}}
+
+  footer{padding:48px 0 64px; border-top:1px solid var(--line); color:var(--text-dim); font-size:.9rem;}
+  footer a{color:var(--teal);}
+
+  @media (max-width:520px){
+    .body-inner{padding-left:54px;}
+    header.top{padding:44px 0 32px;}
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header class="top">
+    <div class="name">Arjun Nagla</div>
+    <div class="role">Automation &amp; Data Systems — RPA, Python, SQL, Power Platform</div>
+    <div class="contact">
+      <a href="mailto:arjunnagla3@gmail.com">arjunnagla3@gmail.com</a>
+      <a href="https://linkedin.com/in/arjun-nagla-743a3b148">LinkedIn</a>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="strip">
+      <div class="c"><div class="co">Genpact</div><div class="n">11.2 FTEs</div><div class="l">saved across five production automations</div></div>
+      <div class="c"><div class="co">IFF</div><div class="n">2,500+ hrs/yr</div><div class="l">saved through SAP macros, plus a real-time desktop app</div></div>
+      <div class="c"><div class="co">S&amp;P Global</div><div class="n">2.5 FTEs</div><div class="l">saved, plus a 40% cut in outsourcing cost on AI translation</div></div>
+    </div>
+  </section>
+
+  <section class="intro">
+    <p>I build the systems underneath the reporting: bots, macros, AI agents, and small applications that replace manual, repetitive work. My stack is Power Automate, AI Builder, Copilot agents, Power Apps, Python, VBA, and SQL, across finance operations and localization.</p>
+  </section>
+
+  <section class="work">
+    <h2>Selected work</h2>
+    <p class="sub">Most recent first. Tap any row for detail.</p>
+
+    <div id="entries"></div>
+  </section>
+
+  <footer>
+    Full project history and resume available on request — arjunnagla3@gmail.com
+  </footer>
+</div>
+
+<script>
+const icons = {
+  ai: '<path d="M12 3v3M12 18v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M3 12h3M18 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"/><circle cx="12" cy="12" r="4"/>',
+  flow: '<path d="M4 6h9a3 3 0 0 1 0 6H7a3 3 0 0 0 0 6h13"/><path d="M17 15l3 3-3 3"/>',
+  code: '<path d="M8 6L3 12l5 6"/><path d="M16 6l5 6-5 6"/>',
+  app: '<rect x="4" y="5" width="16" height="14" rx="1.5"/><path d="M4 9h16"/><circle cx="7" cy="7" r=".6" fill="var(--teal)"/>',
+  bi: '<path d="M4 20V10M11 20V4M18 20v-7"/><path d="M4 20h14"/>',
+  ledger: '<rect x="5" y="4" width="14" height="16" rx="1"/><path d="M8 8h8M8 12h8M8 16h5"/>'
+};
+
+const employers = [
+ { name:"Genpact", sub:"Current", items:[
+  { name:"Correction Notice Automation", tag:"Power Automate · AI Builder · Copilot agent · Power Apps", icon:"ai",
+    problem:"Roughly 20 people worked solely on processing correction notices: pulling source documents, extracting drug and package data, calculating quantity and days' supply, comparing against what had been submitted, resubmitting where different, and replying with the outcome.",
+    built:"A desktop bot collects notices and source documents. An AI Builder model extracts the data, and a trained Copilot agent calculates the values, updates records where needed, and prepares the reply file. Results land in a SharePoint list behind a Power App where a manager assigns records and reviewers either confirm them or comment with the correct figures, with email notifications at each step.",
+    result:"About 6 FTEs saved, net of the review step. That review is a deliberate temporary control while the agent proves itself; the manager currently sends the final reply, and automating it is the planned next step." },
+  { name:"Automated Collections Follow-up & Escalation", tag:"Power Automate desktop + cloud · AI Builder · SharePoint", icon:"flow",
+    problem:"Chasing outstanding debt with counterparties was manual, inconsistent, and easy to let slip.",
+    built:"A SAP debt report feeds a SharePoint list that tracks every record's history. Two cloud flows act on it: one triggered by incoming replies, one scheduled twice daily. The system sends templated initiation and follow-up emails, waits three days between them, and escalates to a store manager and then a relationship manager. An AI Builder prompt classifies each reply (payment promise, payment confirmation, dispute, query, unrelated) and routes it: disputes to the right team by type, payment confirmations to a payment docket and AP, and everything else to investigation, with a standard acknowledgement sent automatically.",
+    result:"2.7 FTEs in agreed savings, live for three months." },
+  { name:"Portal Automation", tag:"Power Automate Desktop · SQL · Excel", icon:"code",
+    problem:"Retrieving remittance files and claim status from many separate portals was repetitive manual work, each portal with its own login and navigation.",
+    built:"Two pieces. A remittance-file bot that logs into ten approved portals, downloads only what is new since the last recorded date, consolidates and renames the files, files them by portal, year, month and date, logs the payment amounts, and hands off to production. And a reusable status-retrieval pattern (SQL pull from a database, stage in Excel, update each row from the portal, write back with one update query) deployed across 20+ automations covering payer portals and an internal application, including archiving the response page as evidence.",
+    result:"About 2.5 FTEs combined: roughly 1 from remittance downloads and 1.5 from the status-retrieval automations." }
+ ]},
+ { name:"IFF", sub:"", items:[
+  { name:"SAP Automation Portfolio", tag:"VBA · Finance Ops", icon:"ledger",
+    problem:"A long list of finance processes around SAP, including journal clearing, payment terms, vendor reconciliation, and block reporting, were run by hand.",
+    built:"A set of macros covering journal clearing, document-type clearing, vendor statement reconciliation, payment-terms updates, and block reporting.",
+    result:"One journal macro dropped from 4+ hours to under 10 minutes. Together the set saves an estimated 2,500+ hours a year." },
+  { name:"GRR Tracker", tag:"Desktop app · PyQt5", icon:"app",
+    problem:"Blocked and cleared items needed constant manual checking to catch issues before they escalated.",
+    built:"A standalone desktop application that refreshes every 30 minutes and raises an alert the moment a block appears.",
+    result:"Replaced manual polling with real-time visibility and faster response to blocked items." }
+ ]},
+ { name:"S&P Global", sub:"", items:[
+  { name:"Japanese & Korean Workflow Automation", tag:"Power Automate Desktop", icon:"flow",
+    problem:"Japanese and Korean workflow processing was entirely manual and inconsistent.",
+    built:"An end-to-end Power Automate Desktop bot from intake through completion.",
+    result:"2.5 FTEs (3,313 hours) saved annually, with more consistent handling and fewer errors." },
+  { name:"AI Translation Suite", tag:"AI / NLP · Spark Assist agents", icon:"ai",
+    problem:"Multilingual translation and quality review across text, HTML, and long PDFs was slow, inconsistent, and heavily outsourced.",
+    built:"A set of AI agents for translation, accuracy comparison against Google Translate, Vietnamese diacritic correction, layout-preserving HTML/PDF translation, and Korean corporate-page translation that keeps complex tables intact.",
+    result:"Cut Vietnamese outsourcing costs by 40% and produced layout-accurate translations on documents over 200 pages." },
+  { name:"Translation Memory Program", tag:"Data engineering · Python", icon:"code",
+    problem:"Translation memories were thin, full of duplicates, or missing entirely, driving up outsourcing cost and lowering reuse.",
+    built:"A Python pipeline that converts TMX files and classifies entries into duplicate, junk, and unique sets; new vendor memories built from 25,000+ bilingual files; a dedicated Arabic memory built from scratch.",
+    result:"Processed 1.5 billion+ entries; hit rates rose from about 3% to 55–60%, and outsourcing costs on affected languages fell 30–40%." }
+ ]}
+];
+
+const container = document.getElementById('entries');
+let idx = 0;
+employers.forEach(emp=>{
+  const g = document.createElement('div');
+  g.className = 'emp';
+  g.innerHTML = `<h3>${emp.name}</h3>` + (emp.sub ? `<div class="emp-sub">${emp.sub}</div>` : `<div class="emp-sub"></div>`);
+  emp.items.forEach(p=>{
+    const i = idx++;
+    const entry = document.createElement('div');
+    entry.className = 'entry';
+    entry.dataset.open = 'false';
+    entry.innerHTML = `
+      <button class="head" aria-expanded="false" aria-controls="body-${i}">
+        <span class="icon"><svg viewBox="0 0 24 24">${icons[p.icon]}</svg></span>
+        <span class="head-text">
+          <div class="proj-name">${p.name}</div>
+          <div class="tag">${p.tag}</div>
+        </span>
+        <span class="chev">+</span>
+      </button>
+      <div class="body" id="body-${i}">
+        <div class="body-inner">
+          <div class="row"><b>Problem — </b>${p.problem}</div>
+          <div class="row"><b>Built — </b>${p.built}</div>
+          <div class="row"><b>Result — </b>${p.result}</div>
+        </div>
+      </div>`;
+    const btn = entry.querySelector('button.head');
+    const body = entry.querySelector('.body');
+    btn.addEventListener('click', ()=>{
+      const isOpen = entry.dataset.open === 'true';
+      entry.dataset.open = isOpen ? 'false' : 'true';
+      btn.setAttribute('aria-expanded', String(!isOpen));
+      body.style.maxHeight = isOpen ? '0px' : body.scrollHeight + 'px';
+    });
+    g.appendChild(entry);
+  });
+  container.appendChild(g);
+});
+</script>
+
+</body>
+</html>
